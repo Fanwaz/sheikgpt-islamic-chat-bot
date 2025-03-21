@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { Navbar } from '@/components/Navbar';
 import { QuestionInput } from '@/components/QuestionInput';
@@ -156,7 +155,7 @@ const Index = () => {
     <div className="min-h-screen pattern-bg flex flex-col">
       <Navbar />
       
-      <main className="flex-1 container mx-auto px-4 py-8 md:py-12 relative">
+      <main className="flex-1 container mx-auto px-4 py-8 md:py-12 relative flex flex-col">
         <div className="flex flex-col items-center justify-center max-w-3xl mx-auto mb-12 text-center">
           <h2 className="text-3xl font-bold leading-tight md:text-4xl mb-4 animate-slide-in-up">
             Your Islamic Q&A Companion
@@ -166,17 +165,17 @@ const Index = () => {
           </p>
         </div>
 
-        <div className="animate-slide-in-up" style={{ animationDelay: '200ms' }}>
-          <QuestionInput onSubmit={handleSubmitQuestion} isLoading={isLoading} />
-        </div>
-
-        <div className="animate-slide-in-up" style={{ animationDelay: '300ms' }}>
+        <div className="flex-1 overflow-y-auto mb-6 animate-slide-in-up" style={{ animationDelay: '200ms' }}>
           <AnswerDisplay 
             question={currentQuestion} 
             answer={currentAnswer} 
             isLoading={isLoading}
             references={currentReferences}
           />
+        </div>
+
+        <div className="sticky bottom-0 pt-4 border-t border-border bg-background/95 backdrop-blur-sm animate-slide-in-up" style={{ animationDelay: '300ms' }}>
+          <QuestionInput onSubmit={handleSubmitQuestion} isLoading={isLoading} />
         </div>
       </main>
 
