@@ -57,11 +57,11 @@ export const AnswerDisplay = ({ question, answer, isLoading, references }: Answe
 
   if (isLoading) {
     return (
-      <div className="w-full max-w-2xl mx-auto bg-card border border-border rounded-xl p-6 shadow-sm animate-pulse">
-        <div className="h-4 bg-muted rounded w-3/4 mb-4"></div>
-        <div className="h-4 bg-muted rounded w-1/2 mb-4"></div>
-        <div className="h-4 bg-muted rounded w-5/6 mb-4"></div>
-        <div className="h-4 bg-muted rounded w-2/3"></div>
+      <div className="w-full max-w-2xl mx-auto bg-card border border-border rounded-xl p-4 md:p-6 shadow-sm animate-pulse">
+        <div className="h-3 md:h-4 bg-muted rounded w-3/4 mb-3 md:mb-4"></div>
+        <div className="h-3 md:h-4 bg-muted rounded w-1/2 mb-3 md:mb-4"></div>
+        <div className="h-3 md:h-4 bg-muted rounded w-5/6 mb-3 md:mb-4"></div>
+        <div className="h-3 md:h-4 bg-muted rounded w-2/3"></div>
       </div>
     );
   }
@@ -72,15 +72,15 @@ export const AnswerDisplay = ({ question, answer, isLoading, references }: Answe
 
   return (
     <div className="w-full max-w-2xl mx-auto animate-fade-in">
-      <div className="bg-card border border-border rounded-xl shadow-sm overflow-hidden mb-8 transition-all duration-300 ease-in-out">
-        <div className="p-4 border-b border-border bg-muted/50">
-          <h3 className="font-medium">Your Question</h3>
-          <p className="mt-1">{question}</p>
+      <div className="bg-card border border-border rounded-xl shadow-sm overflow-hidden mb-6 md:mb-8 transition-all duration-300 ease-in-out">
+        <div className="p-3 md:p-4 border-b border-border bg-muted/50">
+          <h3 className="font-medium text-sm md:text-base">Your Question</h3>
+          <p className="mt-1 text-sm">{question}</p>
         </div>
         
-        <div className="p-6">
-          <h3 className="font-medium mb-3">Answer</h3>
-          <div className="prose prose-sm max-w-none">
+        <div className="p-4 md:p-6">
+          <h3 className="font-medium text-sm md:text-base mb-2 md:mb-3">Answer</h3>
+          <div className="prose prose-sm max-w-none text-sm">
             {answer.includes("I only answer Islam-related questions") ? (
               <p className="text-destructive">{answer}</p>
             ) : (
@@ -89,16 +89,16 @@ export const AnswerDisplay = ({ question, answer, isLoading, references }: Answe
           </div>
 
           {expandedRef && (
-            <div className="mt-4 p-4 bg-muted rounded-lg animate-fade-in">
-              <h4 className="font-medium text-sm mb-2">Reference [{expandedRef}]</h4>
-              <p className="text-sm">
+            <div className="mt-3 md:mt-4 p-3 md:p-4 bg-muted rounded-lg animate-fade-in">
+              <h4 className="font-medium text-xs md:text-sm mb-1 md:mb-2">Reference [{expandedRef}]</h4>
+              <p className="text-xs md:text-sm">
                 {references.find(ref => ref.id === expandedRef)?.text}
               </p>
               <a 
                 href={references.find(ref => ref.id === expandedRef)?.source} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-xs mt-2 text-teal inline-flex items-center hover:underline"
+                className="text-xs mt-1 md:mt-2 text-teal inline-flex items-center hover:underline"
               >
                 View Source <ExternalLink className="ml-1 h-3 w-3" />
               </a>

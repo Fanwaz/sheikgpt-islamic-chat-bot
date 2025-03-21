@@ -164,17 +164,17 @@ const Index = () => {
     <div className="min-h-screen pattern-bg flex flex-col">
       <Navbar />
       
-      <main className="flex-1 container mx-auto px-4 py-8 md:py-12 relative flex flex-col">
-        <div className="flex flex-col items-center justify-center max-w-3xl mx-auto mb-12 text-center">
-          <h2 className="text-3xl font-bold leading-tight md:text-4xl mb-4 animate-slide-in-up">
+      <main className="flex-1 container mx-auto px-3 md:px-4 py-6 md:py-8 lg:py-12 relative flex flex-col">
+        <div className="flex flex-col items-center justify-center max-w-3xl mx-auto mb-8 md:mb-12 text-center">
+          <h2 className="text-xl md:text-3xl font-bold leading-tight lg:text-4xl mb-2 md:mb-4 animate-slide-in-up">
             Your Islamic Q&A Companion
           </h2>
-          <p className="text-muted-foreground max-w-2xl animate-slide-in-up" style={{ animationDelay: '100ms' }}>
+          <p className="text-sm md:text-base text-muted-foreground max-w-2xl animate-slide-in-up" style={{ animationDelay: '100ms' }}>
             Ask questions about Islamic teachings, history, or culture and get reliable answers with verified sources.
           </p>
         </div>
 
-        <div className="flex-1 overflow-y-auto mb-6 animate-slide-in-up" style={{ animationDelay: '200ms' }}>
+        <div className="flex-1 overflow-y-auto mb-4 md:mb-6 animate-slide-in-up" style={{ animationDelay: '200ms' }}>
           <AnswerDisplay 
             question={currentQuestion} 
             answer={currentAnswer} 
@@ -183,7 +183,7 @@ const Index = () => {
           />
         </div>
 
-        <div className="sticky bottom-0 pt-4 border-t border-border bg-background/95 backdrop-blur-sm animate-slide-in-up" style={{ animationDelay: '300ms' }}>
+        <div className="sticky bottom-0 pt-3 md:pt-4 border-t border-border bg-background/95 backdrop-blur-sm animate-slide-in-up" style={{ animationDelay: '300ms' }}>
           <QuestionInput onSubmit={handleSubmitQuestion} isLoading={isLoading} />
         </div>
       </main>
