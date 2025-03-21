@@ -1,6 +1,7 @@
 
 import { useState } from 'react';
 import { ExternalLink } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface Reference {
   id: string;
@@ -17,6 +18,7 @@ interface AnswerDisplayProps {
 
 export const AnswerDisplay = ({ question, answer, isLoading, references }: AnswerDisplayProps) => {
   const [expandedRef, setExpandedRef] = useState<string | null>(null);
+  const isMobile = useIsMobile();
 
   const toggleReference = (id: string) => {
     setExpandedRef(expandedRef === id ? null : id);
@@ -28,7 +30,6 @@ export const AnswerDisplay = ({ question, answer, isLoading, references }: Answe
     let result = text;
     
     // Simple pattern to match references like [1], [2], etc.
-    // In a real app, you might want to use a more sophisticated approach
     references.forEach((ref) => {
       const pattern = new RegExp(`\\[${ref.id}\\]`, 'g');
       result = result.replace(
@@ -68,6 +69,39 @@ export const AnswerDisplay = ({ question, answer, isLoading, references }: Answe
 
   if (!question || !answer) {
     return null;
+  }
+
+  if (isMobile) {
+    return (
+      <div className="w-full mx-auto animate-fade-in">
+        <div className="p-3 bg-card border border-border rounded-xl shadow-sm mb-3">
+          <div className="prose prose-sm max-w-none text-xs">
+            {answer.includes("I only answer Islam-related questions") ? (
+              <p className="text-destructive">{answer}</p>
+            ) : (
+              renderAnswerWithReferences(answer)
+            )}
+          </div>
+
+          {expandedRef && (
+            <div className="mt-2 p-2 bg-muted rounded-lg animate-fade-in">
+              <h4 className="font-medium text-xs mb-1">Reference [{expandedRef}]</h4>
+              <p className="text-xs">
+                {references.find(ref => ref.id === expandedRef)?.text}
+              </p>
+              <a 
+                href={references.find(ref => ref.id === expandedRef)?.source} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-xs mt-1 text-teal inline-flex items-center hover:underline"
+              >
+                View Source <ExternalLink className="ml-1 h-3 w-3" />
+              </a>
+            </div>
+          )}
+        </div>
+      </div>
+    );
   }
 
   return (
