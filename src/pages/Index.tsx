@@ -4,6 +4,7 @@ import { QuestionInput } from '@/components/QuestionInput';
 import { AnswerDisplay } from '@/components/AnswerDisplay';
 import { HistorySidebar } from '@/components/HistorySidebar';
 import { OnboardingModal } from '@/components/OnboardingModal';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface HistoryItem {
   id: string;
@@ -19,11 +20,9 @@ interface Reference {
   source: string;
 }
 
-// Mock function to simulate API call for demonstration
 const mockAnswerQuestion = (question: string): Promise<{ answer: string, references: Reference[] }> => {
   return new Promise((resolve) => {
     setTimeout(() => {
-      // Check if the question is Islam-related (very simple check for demo)
       const isIslamRelated = /islam|quran|muslim|prayer|ramadan|hajj|zakat|prophet|muhammad|allah|mosque|salat|surah|charity/i.test(question);
       
       if (!isIslamRelated) {
@@ -34,7 +33,6 @@ const mockAnswerQuestion = (question: string): Promise<{ answer: string, referen
         return;
       }
       
-      // For demo purposes, return a mock answer with references
       if (question.toLowerCase().includes('charity')) {
         resolve({
           answer: "The Quran emphasizes the importance of charity (Sadaqah) and obligatory giving (Zakat). In Surah Al-Baqarah [1], Allah states that those who give charity will receive great rewards. The Prophet Muhammad (peace be upon him) also emphasized charity as described in the hadith collections [2], saying it is a proof of faith.",
@@ -84,11 +82,12 @@ const mockAnswerQuestion = (question: string): Promise<{ answer: string, referen
           ]
         });
       }
-    }, 1500); // Simulate network delay
+    }, 1500);
   });
 };
 
 const Index = () => {
+  const { user } = useAuth();
   const [showOnboarding, setShowOnboarding] = useState(true);
   const [currentQuestion, setCurrentQuestion] = useState('');
   const [currentAnswer, setCurrentAnswer] = useState<string | null>(null);
@@ -98,12 +97,18 @@ const Index = () => {
   const [selectedHistoryId, setSelectedHistoryId] = useState<string | null>(null);
 
   useEffect(() => {
-    // Check if user has seen onboarding
     const hasSeenOnboarding = localStorage.getItem('hasSeenOnboarding');
     if (hasSeenOnboarding) {
       setShowOnboarding(false);
     }
-  }, []);
+    
+    if (user) {
+      const savedHistory = localStorage.getItem(`history_${user.id}`);
+      if (savedHistory) {
+        setHistory(JSON.parse(savedHistory));
+      }
+    }
+  }, [user]);
 
   const handleSubmitQuestion = async (question: string) => {
     setCurrentQuestion(question);
@@ -117,16 +122,20 @@ const Index = () => {
       setCurrentAnswer(answer);
       setCurrentReferences(references);
       
-      // Save to history
-      const newHistoryItem: HistoryItem = {
-        id: Date.now().toString(),
-        question,
-        answer,
-        date: new Date().toISOString(),
-        references
-      };
-      
-      setHistory(prev => [newHistoryItem, ...prev]);
+      if (user) {
+        const newHistoryItem: HistoryItem = {
+          id: Date.now().toString(),
+          question,
+          answer,
+          date: new Date().toISOString(),
+          references
+        };
+        
+        const updatedHistory = [newHistoryItem, ...history];
+        setHistory(updatedHistory);
+        
+        localStorage.setItem(`history_${user.id}`, JSON.stringify(updatedHistory));
+      }
     } catch (error) {
       console.error('Error answering question:', error);
       setCurrentAnswer('Sorry, there was an error processing your question. Please try again.');
@@ -179,7 +188,7 @@ const Index = () => {
         </div>
       </main>
 
-      <HistorySidebar history={history} onSelectQuestion={handleSelectFromHistory} />
+      {user && <HistorySidebar history={history} onSelectQuestion={handleSelectFromHistory} />}
       <OnboardingModal isOpen={showOnboarding} onClose={handleCloseOnboarding} />
     </div>
   );
