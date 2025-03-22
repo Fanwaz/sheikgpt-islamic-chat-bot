@@ -2,11 +2,9 @@ import { useEffect, useState } from 'react';
 import { Navbar } from '@/components/Navbar';
 import { QuestionInput } from '@/components/QuestionInput';
 import { AnswerDisplay } from '@/components/AnswerDisplay';
-import { HistorySidebar } from '@/components/HistorySidebar';
-import { OnboardingModal } from '@/components/OnboardingModal';
-import { Moon } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { Compass } from 'lucide-react';
 
 interface HistoryItem {
   id: string;
@@ -164,25 +162,18 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen pattern-bg flex flex-col">
+    <div className="flex flex-col h-screen bg-dark text-white">
       <Navbar />
       
-      <main className="flex-1 container mx-auto px-3 md:px-4 py-4 md:py-8 lg:py-12 relative flex flex-col">
+      <main className="flex-1 overflow-y-auto flex flex-col">
         {!currentQuestion && !currentAnswer && (
-          <div className="flex flex-col items-center justify-center max-w-3xl mx-auto mb-6 md:mb-8 text-center animate-fade-in mt-8 md:mt-20">
-            <div className="mb-4">
-              <Moon className="h-12 w-12 md:h-16 md:w-16 text-primary animate-float mx-auto" />
-            </div>
-            <h2 className="text-xl md:text-2xl font-bold mb-2 font-serif tracking-wide">
-              Seek Islamic Knowledge
-            </h2>
-            <p className="text-xs md:text-sm text-muted-foreground max-w-2xl animate-slide-in-up" style={{ animationDelay: '100ms' }}>
-              Ask questions about Islamic teachings, history, or culture and get reliable answers with verified sources.
-            </p>
+          <div className="flex-1 flex flex-col items-center justify-center">
+            <Compass className="h-16 w-16 text-muted-foreground animate-float opacity-30" />
+            <h2 className="text-lg font-medium mt-4 text-muted-foreground">Ask anything</h2>
           </div>
         )}
 
-        <div className="flex-1 overflow-y-auto mb-4 md:mb-6 animate-slide-in-up" style={{ animationDelay: '200ms' }}>
+        <div className="flex-1 overflow-y-auto px-4">
           <AnswerDisplay 
             question={currentQuestion} 
             answer={currentAnswer} 
@@ -191,13 +182,8 @@ const Index = () => {
           />
         </div>
 
-        <div className={`sticky bottom-0 pt-3 md:pt-4 ${currentQuestion || currentAnswer ? 'border-t border-border' : ''} bg-background/95 backdrop-blur-sm animate-slide-in-up`} style={{ animationDelay: '300ms' }}>
-          <QuestionInput onSubmit={handleSubmitQuestion} isLoading={isLoading} />
-        </div>
+        <QuestionInput onSubmit={handleSubmitQuestion} isLoading={isLoading} />
       </main>
-
-      {user && <HistorySidebar history={history} onSelectQuestion={handleSelectFromHistory} />}
-      <OnboardingModal isOpen={showOnboarding} onClose={handleCloseOnboarding} />
     </div>
   );
 };

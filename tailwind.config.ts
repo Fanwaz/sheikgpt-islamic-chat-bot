@@ -58,6 +58,11 @@ export default {
           DEFAULT: "#2A9D8F",
           light: "#39B8A9",
         },
+        dark: {
+          DEFAULT: "#121212",
+          secondary: "#1E1E1E",
+          input: "#2A2A2A",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

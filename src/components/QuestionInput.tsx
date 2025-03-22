@@ -1,7 +1,8 @@
 
 import { useState } from 'react';
-import { Mic, Send } from 'lucide-react';
+import { Send, Plus, Search, Lightbulb } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { Button } from '@/components/ui/button';
 
 interface QuestionInputProps {
   onSubmit: (question: string) => void;
@@ -20,69 +21,43 @@ export const QuestionInput = ({ onSubmit, isLoading }: QuestionInputProps) => {
     }
   };
 
-  if (isMobile) {
-    return (
-      <div className="w-full mx-auto mb-16">
-        <form onSubmit={handleSubmit} className="relative">
-          <div className="flex items-center rounded-full border border-input bg-card shadow-sm p-1">
-            <button
-              type="button"
-              className="p-2 rounded-full"
-              aria-label="Voice Input"
-            >
-              <Mic className="h-5 w-5 text-muted-foreground" />
-            </button>
-            
-            <input
-              type="text"
-              value={question}
-              onChange={(e) => setQuestion(e.target.value)}
-              placeholder="Ask anything..."
-              className="w-full bg-transparent border-none focus:outline-none text-sm px-2 py-1"
-              aria-label="Question Input"
-            />
-            
-            <button
-              type="submit"
-              disabled={!question.trim() || isLoading}
-              className={`p-2 rounded-full ${
-                !question.trim() || isLoading
-                  ? 'text-muted-foreground'
-                  : 'text-primary'
-              }`}
-              aria-label="Submit Question"
-            >
-              <Send className="h-5 w-5" />
-            </button>
-          </div>
-        </form>
-      </div>
-    );
-  }
-
   return (
-    <div className="w-full max-w-2xl mx-auto mb-8">
-      <form onSubmit={handleSubmit} className="relative">
+    <div className="w-full px-4 py-3 bg-dark border-t border-dark-secondary">
+      <form onSubmit={handleSubmit} className="max-w-3xl mx-auto">
         <div className="relative">
-          <textarea
+          <input
+            type="text"
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
-            placeholder="Ask an Islam-related question (e.g., What does the Quran say about charity?)"
-            className="w-full h-[120px] px-4 py-3 rounded-xl bg-background border border-input shadow-sm focus:border-ring focus:ring-1 focus:ring-ring focus:outline-none transition-all duration-300 resize-none"
+            placeholder="Ask anything..."
+            className="w-full bg-dark-input text-white rounded-full px-4 py-3 pr-12 focus:outline-none"
             aria-label="Question Input"
           />
+          
           <button
             type="submit"
             disabled={!question.trim() || isLoading}
-            className={`absolute bottom-3 right-3 p-2 rounded-md ${
-              !question.trim() || isLoading
-                ? 'bg-muted text-muted-foreground'
-                : 'bg-teal hover:bg-teal-light text-white'
-            } transition-all duration-300 ease-in-out`}
+            className={`absolute right-2 top-1/2 transform -translate-y-1/2 p-2 rounded-full ${
+              !question.trim() || isLoading ? 'text-muted-foreground' : 'text-white'
+            }`}
             aria-label="Submit Question"
           >
             <Send className="h-5 w-5" />
           </button>
+        </div>
+        
+        <div className="flex justify-center mt-3 space-x-3">
+          <Button variant="ghost" size="circle-sm" className="bg-dark-secondary text-white">
+            <Plus className="h-5 w-5" />
+          </Button>
+          <Button variant="ghost" size="circle-sm" className="bg-dark-secondary text-white">
+            <Search className="h-5 w-5" />
+            <span className="ml-1 text-xs">DeepSearch</span>
+          </Button>
+          <Button variant="ghost" size="circle-sm" className="bg-dark-secondary text-white">
+            <Lightbulb className="h-5 w-5" />
+            <span className="ml-1 text-xs">Think</span>
+          </Button>
         </div>
       </form>
     </div>
