@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { Send, Plus, Search, Lightbulb } from 'lucide-react';
+import { Send, Plus } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Button } from '@/components/ui/button';
 
@@ -49,14 +49,6 @@ export const QuestionInput = ({ onSubmit, isLoading }: QuestionInputProps) => {
         <div className="flex justify-center mt-3 space-x-3">
           <Button variant="ghost" size="circle-sm" className="bg-dark-secondary text-white">
             <Plus className="h-5 w-5" />
-          </Button>
-          <Button variant="ghost" size="circle-sm" className="bg-dark-secondary text-white">
-            <Search className="h-5 w-5" />
-            <span className="ml-1 text-xs">DeepSearch</span>
-          </Button>
-          <Button variant="ghost" size="circle-sm" className="bg-dark-secondary text-white">
-            <Lightbulb className="h-5 w-5" />
-            <span className="ml-1 text-xs">Think</span>
           </Button>
         </div>
       </form>
