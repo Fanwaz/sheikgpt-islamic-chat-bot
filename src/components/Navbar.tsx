@@ -1,6 +1,6 @@
 
 import { ThemeToggle } from './ThemeToggle';
-import { Moon, Settings as SettingsIcon, Share2 } from 'lucide-react';
+import { Moon, Settings as SettingsIcon } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Link } from 'react-router-dom';
 import { 
@@ -34,7 +34,6 @@ export const Navbar = () => {
             <h1 className="text-lg font-bold tracking-tight">Sheik GPT</h1>
             
             <div className="flex items-center gap-2">
-              <Share2 className="h-5 w-5 text-muted-foreground" />
               <Link to="/settings">
                 <SettingsIcon className="h-5 w-5" />
               </Link>

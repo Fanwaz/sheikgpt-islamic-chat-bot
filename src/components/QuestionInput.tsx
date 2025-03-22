@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { Mic, VoiceIcon, Send } from 'lucide-react';
+import { Mic, Send } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 interface QuestionInputProps {
