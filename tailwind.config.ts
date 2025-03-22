@@ -1,14 +1,16 @@
-import type { Config } from "tailwindcss";
+
+import type { Config } from "tailwindcss"
+import { fontFamily } from "tailwindcss/defaultTheme"
+import { shadcnPlugin } from "./shadcn-plugin"
 
 export default {
   darkMode: ["class"],
   content: [
-    "./pages/**/*.{ts,tsx}",
-    "./components/**/*.{ts,tsx}",
-    "./app/**/*.{ts,tsx}",
-    "./src/**/*.{ts,tsx}",
-  ],
-  prefix: "",
+    './pages/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+    './app/**/*.{ts,tsx}',
+    './src/**/*.{ts,tsx}',
+	],
   theme: {
     container: {
       center: true,
@@ -18,9 +20,6 @@ export default {
       },
     },
     extend: {
-      fontFamily: {
-        inter: ["Inter", "sans-serif"],
-      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -57,22 +56,18 @@ export default {
         },
         teal: {
           DEFAULT: "#2A9D8F",
-          light: "#42B4A6",
-          dark: "#1F7A6D",
-        },
-        islamic: {
-          light: "#F5F5F5",
-          dark: "#1A2526",
-          text: {
-            light: "#333333",
-            dark: "#FFFFFF",
-          },
+          light: "#39B8A9",
         },
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      fontFamily: {
+        sans: ["var(--font-sans)", ...fontFamily.sans],
+        inter: ["Inter", ...fontFamily.sans],
+        playfair: ["Playfair Display", "serif"],
       },
       keyframes: {
         "accordion-down": {
@@ -83,45 +78,22 @@ export default {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
-        fadeIn: {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
+        "fade-in": {
+          from: { opacity: "0" },
+          to: { opacity: "1" },
         },
-        slideInRight: {
-          '0%': { transform: 'translateX(100%)' },
-          '100%': { transform: 'translateX(0)' },
-        },
-        slideInLeft: {
-          '0%': { transform: 'translateX(-100%)' },
-          '100%': { transform: 'translateX(0)' },
-        },
-        slideInUp: {
-          '0%': { transform: 'translateY(20px)', opacity: '0' },
-          '100%': { transform: 'translateY(0)', opacity: '1' },
-        },
-        pulse: {
-          '0%, 100%': { opacity: '1' },
-          '50%': { opacity: '0.7' },
-        },
-        float: {
-          '0%, 100%': { transform: 'translateY(0)' },
-          '50%': { transform: 'translateY(-5px)' },
-        },
+        "slide-in-up": {
+          from: { transform: "translateY(20px)", opacity: "0" },
+          to: { transform: "translateY(0)", opacity: "1" },
+        }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "fade-in": "fadeIn 0.5s ease-out forwards",
-        "slide-in-right": "slideInRight 0.5s ease-out forwards",
-        "slide-in-left": "slideInLeft 0.5s ease-out forwards", 
-        "slide-in-up": "slideInUp 0.5s ease-out forwards",
-        "pulse": "pulse 2s infinite",
-        "float": "float 3s ease-in-out infinite",
-      },
-      backgroundImage: {
-        'islamic-pattern': "url('/src/assets/islamic-pattern.svg')",
+        "fade-in": "fade-in 0.5s ease-out",
+        "slide-in-up": "slide-in-up 0.5s ease-out",
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
-} satisfies Config;
+  plugins: [shadcnPlugin],
+} satisfies Config
