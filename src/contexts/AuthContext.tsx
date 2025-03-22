@@ -6,6 +6,7 @@ interface User {
   name: string;
   email: string;
   initials: string;
+  profileUrl?: string;
 }
 
 interface AuthContextType {
@@ -14,6 +15,7 @@ interface AuthContextType {
   signUp: (email: string, password: string, name: string) => Promise<void>;
   signIn: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
+  updateProfilePicture: (file: File) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -104,8 +106,53 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  // Mock function to update profile picture
+  const updateProfilePicture = async (file: File) => {
+    setIsLoading(true);
+    
+    try {
+      // Mock API call delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Convert file to base64 for storage in localStorage
+      const reader = new FileReader();
+      
+      const profileUrlPromise = new Promise<string>((resolve, reject) => {
+        reader.onload = () => {
+          if (typeof reader.result === 'string') {
+            resolve(reader.result);
+          } else {
+            reject(new Error('Failed to convert image to base64'));
+          }
+        };
+        reader.onerror = reject;
+      });
+      
+      reader.readAsDataURL(file);
+      const profileUrl = await profileUrlPromise;
+      
+      if (user) {
+        const updatedUser = { ...user, profileUrl };
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+        setUser(updatedUser);
+      }
+    } catch (error) {
+      console.error('Profile update error:', error);
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, isLoading, signUp, signIn, signOut }}>
+    <AuthContext.Provider value={{ 
+      user, 
+      isLoading, 
+      signUp, 
+      signIn, 
+      signOut,
+      updateProfilePicture 
+    }}>
       {children}
     </AuthContext.Provider>
   );
